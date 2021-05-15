@@ -17,44 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
+class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -134,7 +102,8 @@ class _FormPageState extends State<FormPage> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ResultImcPage(
-                        result: _imcResults.getMyImcResult(_formData['peso'], _formData['altura']),
+                        result: _imcResults.getMyImcResult(
+                            _formData['peso'], _formData['altura']),
                       ),
                     ),
                   );
@@ -162,48 +131,52 @@ class ResultImcPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image(
-                    image: AssetImage(result.img),
-                  ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Image(
+                        image: AssetImage(result.img),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      result.interval,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      result.title,
+                      style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      result.description,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      child: Text('Ver mais'),
+                      onPressed: _launchURL,
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  result.interval,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  result.title,
-                  style: new TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  result.description,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  child: Text('Ver mais'),
-                  onPressed: _launchURL,
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
