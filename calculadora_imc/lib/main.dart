@@ -1,5 +1,8 @@
+import 'package:calculadora_imc/imc_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'imc_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -60,8 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Text("Calculadora IMC",
               style: TextStyle(
                 fontSize: 35,
-              )
-          ),
+              )),
           FormPage(),
         ],
       ),
@@ -76,6 +78,7 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final _formKey = GlobalKey<FormState>();
+  final ImcResults _imcResults = ImcResults();
   final Map<String, Object> _formData = {};
 
   @override
@@ -87,7 +90,8 @@ class _FormPageState extends State<FormPage> {
         child: Column(
           children: [
             TextFormField(
-              decoration: new InputDecoration(labelText: "Digite a sua altura aqui"),
+              decoration:
+                  new InputDecoration(labelText: "Digite a sua altura aqui"),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value.isEmpty) return "Campo obrigatorio!";
@@ -98,13 +102,14 @@ class _FormPageState extends State<FormPage> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
               ],
-              onSaved: (value) =>_formData['altura'] = value,
+              onSaved: (value) => _formData['altura'] = num.tryParse(value),
             ),
             SizedBox(
               height: 30,
             ),
             TextFormField(
-              decoration: new InputDecoration(labelText: "Digite o seu peso aqui"),
+              decoration:
+                  new InputDecoration(labelText: "Digite o seu peso aqui"),
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value.isEmpty) return "Campo obrigatorio!";
@@ -115,18 +120,24 @@ class _FormPageState extends State<FormPage> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
               ],
-              onSaved: (value) =>_formData['peso'] = value,
+              onSaved: (value) => _formData['peso'] = num.tryParse(value),
             ),
             SizedBox(
               height: 30,
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Continuar"),
               onPressed: () {
                 final isValid = _formKey.currentState.validate();
                 if (isValid) {
                   _formKey.currentState.save();
-                  // Navigator.of(context).push();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ResultImcPage(
+                        result: _imcResults.getMyImcResult(_formData['peso'], _formData['altura']),
+                      ),
+                    ),
+                  );
                 }
               },
             ),
@@ -134,5 +145,77 @@ class _FormPageState extends State<FormPage> {
         ),
       ),
     );
+  }
+}
+
+class ResultImcPage extends StatelessWidget {
+  final ImcResult result;
+  const ResultImcPage({Key key, this.result}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(color: Colors.black),
+        automaticallyImplyLeading: false,
+        title: Text("Resultado"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: Image(
+                    image: AssetImage(result.img),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  result.interval,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  result.title,
+                  style: new TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  result.description,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  child: Text('Ver mais'),
+                  onPressed: _launchURL,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+_launchURL() async {
+  const url =
+      'https://abeso.org.br/obesidade-e-sindrome-metabolica/calculadora-imc/';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Não foi possivel acessar $url';
   }
 }
