@@ -63,14 +63,14 @@ class _FormPageState extends State<FormPage> {
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value.isEmpty) return "Campo obrigatorio!";
-                if (num.tryParse(value) <= 0)
+                if (double.tryParse(value) <= 0.0)
                   return "Digite um valor superior a 0.";
                 return null;
               },
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
               ],
-              onSaved: (value) => _formData['altura'] = num.tryParse(value),
+              onSaved: (value) => _formData['altura'] = double.tryParse(value),
             ),
             SizedBox(
               height: 30,
@@ -81,14 +81,14 @@ class _FormPageState extends State<FormPage> {
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value.isEmpty) return "Campo obrigatorio!";
-                if (num.tryParse(value) <= 0)
+                if (double.tryParse(value) <= 0.0)
                   return "Digite um valor superior a 0.";
                 return null;
               },
               inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9,]')),
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
               ],
-              onSaved: (value) => _formData['peso'] = num.tryParse(value),
+              onSaved: (value) => _formData['peso'] = double.tryParse(value),
             ),
             SizedBox(
               height: 30,
@@ -138,6 +138,17 @@ class ResultImcPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Text(
+                      'Seu IMC: '+ result.imc.toStringAsFixed(2),
+                      textAlign: TextAlign.center,
+                      style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Center(
                       child: Image(
                         image: AssetImage(result.img),
@@ -154,6 +165,7 @@ class ResultImcPage extends StatelessWidget {
                     ),
                     Text(
                       result.title,
+                      textAlign: TextAlign.justify,
                       style: new TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

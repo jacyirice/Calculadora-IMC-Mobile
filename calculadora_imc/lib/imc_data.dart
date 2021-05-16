@@ -3,8 +3,12 @@ class ImcResult {
   final String interval;
   final String title;
   final String description;
-
+  double imc;
   ImcResult(this.img, this.interval, this.title, this.description);
+
+  void setImc (double imc){
+    this.imc = imc;
+  }
 }
 
 class ImcResults {
@@ -25,17 +29,21 @@ class ImcResults {
   ImcResults();
 
   ImcResult getMyImcResult(double peso, double altura) {
+    ImcResult result;
     double imc = peso / altura * altura;
     if (imc <= 18.5)
-      return results[0];
+      result = results[0];
     else if (imc <= 18.6 && imc <= 24.9)
-      return results[1];
+      result = results[1];
     else if (imc <= 25.0 && imc <= 29.9)
-      return results[2];
+      result = results[2];
     else if (imc <= 30.0 && imc <= 34.9)
-      return results[3];
+      result = results[3];
     else if (imc <= 35.0 && imc <= 39.9)
-      return results[4];
-    return results[5];
+      result = results[4];
+    else
+      result = results[5];
+    result.setImc(imc);
+    return result;
   }
 }
