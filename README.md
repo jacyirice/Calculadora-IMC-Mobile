@@ -25,3 +25,9 @@ Caso o usuario clique no botão "Ver mais", é redirecionado para a pagina da [a
 <p align="center">
   <img src="https://github.com/jacyirice/Calculadora-IMC-Mobile/blob/develop/images/gif_imc_6.gif?raw=true" height="500" alt="Formulario preenchido corretamente"/>
 </p>
+
+## Desenvolvido por
+[Jacyiricê Silva Oliveira](https://github.com/jacyirice/)
+
+## Disponivel em 
+[GitHub](https://github.com/jacyirice/Calculadora-IMC-Mobile)
