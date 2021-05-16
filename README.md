@@ -21,4 +21,7 @@ valores de entrada.
   <img src="https://github.com/jacyirice/Calculadora-IMC-Mobile/blob/develop/images/prints_imc_5.png?raw=true" height="500" alt="Outro resultado"/>
 </p>
 
-Caso o usuario clique no botão "Ver mais", é redirecionado para a pagina da abeso no navegador
+Caso o usuario clique no botão "Ver mais", é redirecionado para a pagina da [abeso](https://abeso.org.br/obesidade-e-sindrome-metabolica/calculadora-imc/) no navegador.
+<p align="center">
+  <img src="https://github.com/jacyirice/Calculadora-IMC-Mobile/blob/develop/images/gif_imc_6.gif?raw=true" height="500" alt="Formulario preenchido corretamente"/>
+</p>
