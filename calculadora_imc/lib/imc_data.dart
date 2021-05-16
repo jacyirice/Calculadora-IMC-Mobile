@@ -30,7 +30,7 @@ class ImcResults {
 
   ImcResult getMyImcResult(double peso, double altura) {
     ImcResult result;
-    double imc = peso / altura * altura;
+    double imc = peso / (altura * altura);
     if (imc <= 18.5)
       result = results[0];
     else if (imc <= 18.6 && imc <= 24.9)
